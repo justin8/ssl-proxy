@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: nginx:alpine
+    network_mode: bridge
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    volumes:
+      - "conf.d:/etc/nginx/conf.d:rw"
+      - "vhost.d:/etc/nginx/vhost.d:rw"
+      - "html:/usr/share/nginx/html:rw"
+      - "certs:/etc/nginx/certs:ro"
+    ports:
+      - "80:80"
+      - "443:443"
+  docker-gen:
+    container_name: docker-gen
+    image: jwilder/docker-gen
+    network_mode: bridge
+    command: "-notify-sighup nginx-proxy -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf"
+    volumes:
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro"
+      - "conf.d:/etc/nginx/conf.d:rw"
+      - "vhost.d:/etc/nginx/vhost.d:rw"
+      - "html:/usr/share/nginx/html:rw"
+      - "certs:/etc/nginx/certs:ro"
+
+volumes:
+  vhost.d:
+  conf.d:
+  html:
+  certs:
