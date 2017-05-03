@@ -2,7 +2,13 @@
 
 This stack is used to spin up an nginx container that automatically generates new SSL certs and vhosts with just a few settings.
 
-## To add another endpoint:
+## Usage
+Just start this stack, and then start other containers that you want to host on this machine. Everything else is automatic!
+
+### Installation
+1. Run `./install` to install and start the service
+
+### To add another endpoint:
 Make sure the domain name you intend to use is already redirecting to this stack on the internet (for let's encrypt to be able to generate valid certificates). Then start a container with the following:
 
 * Expose the port you want to proxy to
