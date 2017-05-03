@@ -1,0 +1,4 @@
+Working commands:
+docker run --rm --name nginx-proxy -p 80:80 -p 443:443 -v /Users/justin/git/abachi-proxy/certs:/etc/nginx/certs:ro -v /etc/nginx/vhost.d -v /usr/share/nginx/html -v /var/run/docker.sock:/tmp/docker.sock:ro --label com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true jwilder/nginx-proxy:alpine
+docker run --rm -v /Users/justin/git/abachi-proxy/certs:/etc/nginx/certs:rw -v /var/run/docker.sock:/var/run/docker.sock:ro --volumes-from nginx-proxy -e LETSENCRYPT_TEST=true -e ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory jrcs/letsencrypt-nginx-proxy-companion
+docker run -d -e VIRTUAL_HOST=test.dray.be -e VIRTUAL_PORT=80 -e LETSENCRYPT_HOST=test.dray.be -e LETSENCRYPT_EMAIL=justin@dray.be -e LETSENCRYPT_TEST=true nginx
