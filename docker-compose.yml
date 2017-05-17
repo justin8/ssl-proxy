@@ -15,6 +15,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    healthcheck:
+      test: ping -c1 localhost
   docker-gen:
     container_name: docker-gen
     image: jwilder/docker-gen
@@ -27,6 +29,8 @@ services:
       - "vhost.d:/etc/nginx/vhost.d:rw"
       - "html:/usr/share/nginx/html:rw"
       - "certs:/etc/nginx/certs:ro"
+    healthcheck:
+      test: ping -c1 localhost
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     environment:
@@ -37,6 +41,8 @@ services:
       - "vhost.d:/etc/nginx/vhost.d:rw"
       - "html:/usr/share/nginx/html:rw"
       - "certs:/etc/nginx/certs:rw"
+    healthcheck:
+      test: ping -c1 localhost
 
 volumes:
   vhost.d:
